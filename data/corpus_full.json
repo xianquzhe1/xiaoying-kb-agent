@@ -1,0 +1,11 @@
+{
+  "corpus_id": "full",
+  "description": "完整语料：D01 报销制度(30天) 与 D02 补充通知(15天) 并存，两者对报销期限的规定冲突且均未写明适用范围优先级。",
+  "docs": [
+    "docs/D01_expense_policy.json",
+    "docs/D02_expense_notice.json",
+    "docs/D03_travel_standard.json",
+    "docs/D04_attendance.json",
+    "docs/D05_product_faq.json"
+  ]
+}

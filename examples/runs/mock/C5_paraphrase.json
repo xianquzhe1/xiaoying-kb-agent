@@ -1,0 +1,103 @@
+{
+  "case": {
+    "id": "C5_paraphrase",
+    "acceptance": [
+      "改写后的相似问题"
+    ],
+    "scenario": "正常（口语化表述，首检索弱命中）",
+    "question": "出差住酒店一晚最多报多少？",
+    "corpus": "corpus_full.json",
+    "expect": {
+      "status": "answered",
+      "cite_docs": [
+        "D03"
+      ]
+    }
+  },
+  "provider": "mock",
+  "run_at": "2026-11-01T08:19:52+00:00",
+  "history": [],
+  "result": {
+    "status": "answered",
+    "answer": "依据 D03：一线城市（北京、上海、广州、深圳）住宿费每日上限600元；省会城市及计划单列市每日上限450元；其他地区每日上限350元。",
+    "citations": [
+      {
+        "doc_id": "D03",
+        "section_id": "S1",
+        "quote": "一线城市（北京、上海、广州、深圳）住宿费每日上限600元；省会城市及计划单列市每日上限450元；其他地区每日上限350元"
+      }
+    ],
+    "gaps": [],
+    "steps_used": 4,
+    "tool_calls_used": 3,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "出差住酒店一晚最多报多少？"
+        },
+        "rationale": "首轮检索",
+        "observation": "3 命中：D03/S2 城市间交通费标准(2024-06-01, score=1.0)；D03/S3 伙食补助(2024-06-01, score=1.0)；D04/S1 年休假天数(2024-09-15, score=1.0)",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "search_docs",
+        "params": {
+          "query": "出差住住宿费一晚最多报多少？"
+        },
+        "rationale": "零命中，改写为制度用词",
+        "observation": "3 命中：D03/S1 住宿费标准(2024-06-01, score=6.0)；D03/S2 城市间交通费标准(2024-06-01, score=1.0)；D03/S3 伙食补助(2024-06-01, score=1.0)",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "read_doc",
+        "params": {
+          "doc_id": "D03",
+          "section_id": "S1"
+        },
+        "rationale": "读取候选原文",
+        "observation": "D03/S1《差旅费用标准》住宿费标准：一线城市（北京、上海、广州、深圳）住宿费每日上限600元；省会城市及计划单列市每日上限450元；其他地区每日上限350元。超出上限部分由员工个人承担。",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 4,
+        "action": "finish",
+        "params": {
+          "status": "answered",
+          "answer": "依据 D03：一线城市（北京、上海、广州、深圳）住宿费每日上限600元；省会城市及计划单列市每日上限450元；其他地区每日上限350元。",
+          "citations": [
+            {
+              "doc_id": "D03",
+              "section_id": "S1",
+              "quote": "一线城市（北京、上海、广州、深圳）住宿费每日上限600元；省会城市及计划单列市每日上限450元；其他地区每日上限350元"
+            }
+          ],
+          "gaps": []
+        },
+        "rationale": "Mock 规则收口",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "mock:heuristic",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [
+      "D03"
+    ],
+    "matched_option": 0
+  }
+}

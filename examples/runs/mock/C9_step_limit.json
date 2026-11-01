@@ -1,0 +1,66 @@
+{
+  "case": {
+    "id": "C9_step_limit",
+    "acceptance": [
+      "步数上限"
+    ],
+    "scenario": "执行上限（max_steps=2）",
+    "question": "报销期限多久？",
+    "corpus": "corpus_full.json",
+    "max_steps": 2,
+    "expect": {
+      "status": "incomplete_step_limit",
+      "cite_docs": []
+    }
+  },
+  "provider": "mock",
+  "run_at": "2026-11-01T08:19:52+00:00",
+  "history": [],
+  "result": {
+    "status": "incomplete_step_limit",
+    "answer": "已达到执行步数上限（2 步），未能形成有依据的结论。",
+    "citations": [],
+    "gaps": [
+      "未完成：步数耗尽",
+      "已读取但未形成结论：D01/S2 报销期限"
+    ],
+    "steps_used": 2,
+    "tool_calls_used": 2,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "报销期限多久？"
+        },
+        "rationale": "首轮检索",
+        "observation": "3 命中：D01/S2 报销期限(2024-01-10, score=10.0)；D02/S1 报销期限调整(2025-03-01, score=10.0)；D01/S1 适用范围(2024-01-10, score=1.0)",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "read_doc",
+        "params": {
+          "doc_id": "D01",
+          "section_id": "S2"
+        },
+        "rationale": "读取候选原文",
+        "observation": "D01/S2《费用报销管理制度》报销期限：员工应当在费用发生之日起30个自然日内提交报销申请并上传发票影像。超过30个自然日提交的，需由部门负责人在系统中填写书面说明，经财务部复核后方可受理。跨年度的费用不得延至次年提交。",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "mock:heuristic",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [],
+    "matched_option": 0
+  }
+}

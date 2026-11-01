@@ -1,0 +1,118 @@
+{
+  "case": {
+    "id": "C8_tool_fail_persistent",
+    "acceptance": [
+      "工具失败"
+    ],
+    "scenario": "工具失败（检索持续不可用，读取工具可用）",
+    "question": "会员能导出4K吗？",
+    "corpus": "corpus_full.json",
+    "fail_search": -1,
+    "expect": {
+      "accept": [
+        {
+          "status": "tool_failed",
+          "cite_docs": []
+        },
+        {
+          "status": "answered",
+          "cite_docs": [
+            "D05"
+          ],
+          "require_gaps": true
+        }
+      ],
+      "note": "两种结果都合格：放弃并说明失败；或换用 read_doc 直接取证，答案有据且在 gaps 中声明检索未完成。"
+    }
+  },
+  "provider": "anthropic",
+  "run_at": "2026-11-01T08:21:58+00:00",
+  "history": [],
+  "result": {
+    "status": "tool_failed",
+    "answer": "这次没能查到会员能不能导出4K的资料，所以无法给出有依据的答案。\n\n检索服务连续三次报\"索引节点超时\"，一条结果都没返回。我用过的关键词有\"会员 导出 4K\"\"会员权益 导出分辨率\"\"4K 导出\"。我也试过直接读文档，但只读到 D01《费用报销管理制度》，跟这个问题无关。产品 FAQ 的文档 ID 我不知道，所以没法直接打开。\n\n请稍后再问一次，我会重新检索。如果你知道产品 FAQ 或会员权益说明的文档 ID，也可以告诉我，我直接读原文来回答。",
+    "citations": [],
+    "gaps": [
+      "检索服务不可用，没有找到会员导出分辨率（4K）相关的产品 FAQ 或权益说明原文",
+      "不知道产品 FAQ 的文档 ID，无法绕过检索直接读原文"
+    ],
+    "steps_used": 5,
+    "tool_calls_used": 4,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "会员 导出 4K"
+        },
+        "rationale": "用户问会员导出4K权益，先按原词检索产品FAQ。",
+        "observation": "ERROR: 检索服务暂时不可用（模拟故障：索引节点超时）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "search_docs",
+        "params": {
+          "query": "会员权益 导出分辨率",
+          "top_k": 5
+        },
+        "rationale": "上一步检索因索引节点超时失败，换更正式的用词重试一次。",
+        "observation": "ERROR: 检索服务暂时不可用（模拟故障：索引节点超时）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "read_doc",
+        "params": {
+          "doc_id": "D01",
+          "section_id": "S1"
+        },
+        "rationale": "检索已连续两次超时，改用 read_doc 直接读常见首篇文档，看能否取到证据。",
+        "observation": "D01/S1《费用报销管理制度》适用范围：本制度适用于公司全体正式员工及试用期员工的日常费用报销，包括差旅费、业务招待费、办公用品采购费。外部顾问与劳务人员的费用结算不适用本制度，按合同约定执行。",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 4,
+        "action": "search_docs",
+        "params": {
+          "query": "4K 导出",
+          "top_k": 3
+        },
+        "rationale": "D01 是报销制度，与问题无关；无法猜出产品FAQ的文档ID，最后再重试一次检索。",
+        "observation": "ERROR: 检索服务暂时不可用（模拟故障：索引节点超时）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 5,
+        "action": "finish",
+        "params": {
+          "answer": "这次没能查到会员能不能导出4K的资料，所以无法给出有依据的答案。\n\n检索服务连续三次报\"索引节点超时\"，一条结果都没返回。我用过的关键词有\"会员 导出 4K\"\"会员权益 导出分辨率\"\"4K 导出\"。我也试过直接读文档，但只读到 D01《费用报销管理制度》，跟这个问题无关。产品 FAQ 的文档 ID 我不知道，所以没法直接打开。\n\n请稍后再问一次，我会重新检索。如果你知道产品 FAQ 或会员权益说明的文档 ID，也可以告诉我，我直接读原文来回答。",
+          "gaps": [
+            "检索服务不可用，没有找到会员导出分辨率（4K）相关的产品 FAQ 或权益说明原文",
+            "不知道产品 FAQ 的文档 ID，无法绕过检索直接读原文"
+          ],
+          "status": "tool_failed"
+        },
+        "rationale": "search_docs 连续三次索引超时，read_doc 读到的 D01 与问题无关，无法取证。",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "claude-opus-5-5",
+    "usage": {
+      "input_tokens": 1614,
+      "output_tokens": 694
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [],
+    "matched_option": 0
+  }
+}

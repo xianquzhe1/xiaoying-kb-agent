@@ -1,0 +1,96 @@
+{
+  "case": {
+    "id": "C10_all_tools_fail",
+    "acceptance": [
+      "工具失败"
+    ],
+    "scenario": "工具失败（检索与读取均不可用）",
+    "question": "会员能导出4K吗？",
+    "corpus": "corpus_full.json",
+    "fail_tools": [
+      "search_docs",
+      "read_doc"
+    ],
+    "expect": {
+      "status": "tool_failed",
+      "cite_docs": []
+    }
+  },
+  "provider": "anthropic",
+  "run_at": "2026-11-01T08:22:12+00:00",
+  "history": [],
+  "result": {
+    "status": "tool_failed",
+    "answer": "知识库服务目前不可用，我查不到资料，暂时没法确认会员能不能导出4K。我先后用\"会员 导出 4K\"和\"会员权益 导出分辨率\"检索了两次，又试着直接读取文档，三次都报\"存储节点离线\"，没有拿到任何原文。没有依据，我就不凭猜测回答。请稍后再问一次，或者直接看产品会员权益说明，也可以找产品或客服团队确认。",
+    "citations": [],
+    "gaps": [
+      "知识库存储节点离线，未能检索或读取会员导出分辨率（4K）的相关资料"
+    ],
+    "steps_used": 4,
+    "tool_calls_used": 3,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "会员 导出 4K",
+          "top_k": 5
+        },
+        "rationale": "用户问会员是否能导出4K，先按原词检索产品FAQ。",
+        "observation": "ERROR: 知识库服务暂时不可用（模拟故障：存储节点离线）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "search_docs",
+        "params": {
+          "query": "会员权益 导出分辨率",
+          "top_k": 5
+        },
+        "rationale": "上一步因存储节点离线失败，重试并换用更正式用词。",
+        "observation": "ERROR: 知识库服务暂时不可用（模拟故障：存储节点离线）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "read_doc",
+        "params": {
+          "doc_id": "D01",
+          "section_id": "S1"
+        },
+        "rationale": "search_docs 两次都报存储节点离线，试一次 read_doc 看读取服务是否也不可用。",
+        "observation": "ERROR: 知识库服务暂时不可用（模拟故障：存储节点离线）。本次 read_doc 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 4,
+        "action": "finish",
+        "params": {
+          "answer": "知识库服务目前不可用，我查不到资料，暂时没法确认会员能不能导出4K。我先后用\"会员 导出 4K\"和\"会员权益 导出分辨率\"检索了两次，又试着直接读取文档，三次都报\"存储节点离线\"，没有拿到任何原文。没有依据，我就不凭猜测回答。请稍后再问一次，或者直接看产品会员权益说明，也可以找产品或客服团队确认。",
+          "gaps": [
+            "知识库存储节点离线，未能检索或读取会员导出分辨率（4K）的相关资料"
+          ],
+          "status": "tool_failed"
+        },
+        "rationale": "search_docs 换用不同关键词两次、read_doc 一次，都返回存储节点离线，无法取证。",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "claude-opus-5-5",
+    "usage": {
+      "input_tokens": 1485,
+      "output_tokens": 569
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [],
+    "matched_option": 0
+  }
+}

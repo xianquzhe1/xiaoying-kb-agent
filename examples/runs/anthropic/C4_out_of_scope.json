@@ -1,0 +1,67 @@
+{
+  "case": {
+    "id": "C4_out_of_scope",
+    "acceptance": [
+      "资料外问题"
+    ],
+    "scenario": "资料不足",
+    "question": "公司股票代码是多少？",
+    "corpus": "corpus_full.json",
+    "expect": {
+      "status": "out_of_scope",
+      "cite_docs": []
+    }
+  },
+  "provider": "anthropic",
+  "run_at": "2026-11-01T08:20:54+00:00",
+  "history": [],
+  "result": {
+    "status": "out_of_scope",
+    "answer": "知识库里没有公司股票代码的信息，我没法给出有依据的答案。我用“股票代码”检索没有命中。知识库现有的资料是费用报销制度、报销结算补充通知、差旅费用标准、考勤与假期制度和剪辑客户端 FAQ，都不涉及上市或证券信息。股票代码可以去公司官网的投资者关系页面、证券交易所官网查，也可以问董事会办公室或证券事务部门。",
+    "citations": [],
+    "gaps": [
+      "知识库没有公司上市、证券代码或投资者关系方面的资料。"
+    ],
+    "steps_used": 2,
+    "tool_calls_used": 1,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "股票代码"
+        },
+        "rationale": "用户询问公司股票代码，先按原词检索语料。",
+        "observation": "0 命中（query=股票代码）",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "finish",
+        "params": {
+          "answer": "知识库里没有公司股票代码的信息，我没法给出有依据的答案。我用“股票代码”检索没有命中。知识库现有的资料是费用报销制度、报销结算补充通知、差旅费用标准、考勤与假期制度和剪辑客户端 FAQ，都不涉及上市或证券信息。股票代码可以去公司官网的投资者关系页面、证券交易所官网查，也可以问董事会办公室或证券事务部门。",
+          "gaps": [
+            "知识库没有公司上市、证券代码或投资者关系方面的资料。"
+          ],
+          "status": "out_of_scope"
+        },
+        "rationale": "检索“股票代码”命中为 0，返回的语料清单只有报销、差旅、考勤制度和剪辑客户端 FAQ，没有上市或证券相关文档，属于资料确实没有，不是用词不一致。",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "claude-opus-5-5",
+    "usage": {
+      "input_tokens": 692,
+      "output_tokens": 424
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [],
+    "matched_option": 0
+  }
+}

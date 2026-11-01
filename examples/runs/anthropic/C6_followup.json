@@ -1,0 +1,111 @@
+{
+  "case": {
+    "id": "C6_followup",
+    "acceptance": [
+      "上下文追问"
+    ],
+    "scenario": "正常（多轮）",
+    "history_questions": [
+      "出差的住宿标准是多少？"
+    ],
+    "question": "那一线城市呢？",
+    "corpus": "corpus_full.json",
+    "expect": {
+      "status": "answered",
+      "cite_docs": [
+        "D03"
+      ]
+    }
+  },
+  "provider": "anthropic",
+  "run_at": "2026-11-01T08:21:28+00:00",
+  "history": [
+    {
+      "question": "出差的住宿标准是多少？",
+      "answer": "出差住宿费按城市分档，每天有上限：\n- 一线城市（北京、上海、广州、深圳）：每天最多600元\n- 省会城市和计划单列市：每天最多450元\n- 其他地区：每天最多350元\n\n超过上限的部分由员工自己承担。\n\n这些标准出自行政部的《差旅费用标准》（2024-06-01版）。我换了不同关键词检索，没有找到其他对住宿标准有不同规定的资料。这份制度只按城市分档，没有按职级区分住宿标准。",
+      "status": "answered"
+    }
+  ],
+  "result": {
+    "status": "answered",
+    "answer": "在一线城市出差，住宿费每天最多报销600元。一线城市指北京、上海、广州、深圳四个城市。超过600元的部分要员工自己承担。这条规定出自行政部的《差旅费用标准》（2024-06-01版）。",
+    "citations": [
+      {
+        "doc_id": "D03",
+        "quote": "一线城市（北京、上海、广州、深圳）住宿费每日上限600元",
+        "section_id": "S1"
+      },
+      {
+        "doc_id": "D03",
+        "quote": "超出上限部分由员工个人承担。",
+        "section_id": "S1"
+      }
+    ],
+    "gaps": [],
+    "steps_used": 3,
+    "tool_calls_used": 2,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "差旅费用标准 住宿 一线城市",
+          "top_k": 3
+        },
+        "rationale": "用户追问一线城市住宿标准，上一轮依据为《差旅费用标准》，需重新定位片段以便引用原文。",
+        "observation": "3 命中：D03/S1 住宿费标准(2024-06-01, score=9.0)；D01/S1 适用范围(2024-01-10, score=4.0)；D03/S2 城市间交通费标准(2024-06-01, score=4.0)",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "read_doc",
+        "params": {
+          "doc_id": "D03",
+          "section_id": "S1"
+        },
+        "rationale": "检索命中D03 S1住宿费标准，引用前读原文。",
+        "observation": "D03/S1《差旅费用标准》住宿费标准：一线城市（北京、上海、广州、深圳）住宿费每日上限600元；省会城市及计划单列市每日上限450元；其他地区每日上限350元。超出上限部分由员工个人承担。",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "finish",
+        "params": {
+          "answer": "在一线城市出差，住宿费每天最多报销600元。一线城市指北京、上海、广州、深圳四个城市。超过600元的部分要员工自己承担。这条规定出自行政部的《差旅费用标准》（2024-06-01版）。",
+          "citations": [
+            {
+              "doc_id": "D03",
+              "quote": "一线城市（北京、上海、广州、深圳）住宿费每日上限600元",
+              "section_id": "S1"
+            },
+            {
+              "doc_id": "D03",
+              "quote": "超出上限部分由员工个人承担。",
+              "section_id": "S1"
+            }
+          ],
+          "status": "answered"
+        },
+        "rationale": "结合上一轮语境，用户追问的是一线城市住宿标准，D03 S1原文已明确规定。",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "claude-opus-5-5",
+    "usage": {
+      "input_tokens": 1070,
+      "output_tokens": 467
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [
+      "D03"
+    ],
+    "matched_option": 0
+  }
+}

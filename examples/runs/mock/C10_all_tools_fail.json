@@ -1,0 +1,83 @@
+{
+  "case": {
+    "id": "C10_all_tools_fail",
+    "acceptance": [
+      "工具失败"
+    ],
+    "scenario": "工具失败（检索与读取均不可用）",
+    "question": "会员能导出4K吗？",
+    "corpus": "corpus_full.json",
+    "fail_tools": [
+      "search_docs",
+      "read_doc"
+    ],
+    "expect": {
+      "status": "tool_failed",
+      "cite_docs": []
+    }
+  },
+  "provider": "mock",
+  "run_at": "2026-11-01T08:19:52+00:00",
+  "history": [],
+  "result": {
+    "status": "tool_failed",
+    "answer": "检索工具连续失败，暂无法取证，请稍后重试。",
+    "citations": [],
+    "gaps": [
+      "search_docs 连续失败"
+    ],
+    "steps_used": 3,
+    "tool_calls_used": 2,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "会员能导出4K吗？"
+        },
+        "rationale": "首轮检索",
+        "observation": "ERROR: 知识库服务暂时不可用（模拟故障：存储节点离线）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "search_docs",
+        "params": {
+          "query": "会员能导出4K吗？"
+        },
+        "rationale": "上次检索报错，原参数重试一次",
+        "observation": "ERROR: 知识库服务暂时不可用（模拟故障：存储节点离线）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "finish",
+        "params": {
+          "status": "tool_failed",
+          "answer": "检索工具连续失败，暂无法取证，请稍后重试。",
+          "citations": [],
+          "gaps": [
+            "search_docs 连续失败"
+          ]
+        },
+        "rationale": "Mock 规则收口",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "mock:heuristic",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [],
+    "matched_option": 0
+  }
+}

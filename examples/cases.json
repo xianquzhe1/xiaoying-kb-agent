@@ -1,0 +1,93 @@
+[
+  {
+    "id": "C1_clear_answer",
+    "acceptance": ["明确答案"],
+    "scenario": "正常",
+    "question": "员工年休假有几天？",
+    "corpus": "corpus_full.json",
+    "expect": {"status": "answered", "cite_docs": ["D04"]}
+  },
+  {
+    "id": "C2_conflict",
+    "acceptance": ["文档冲突"],
+    "scenario": "资料冲突",
+    "question": "报销期限多久？",
+    "corpus": "corpus_full.json",
+    "expect": {"status": "conflict_needs_confirmation", "cite_docs": ["D01", "D02"]}
+  },
+  {
+    "id": "C3_conflict_removed",
+    "acceptance": ["文档冲突（对照）", "替换文档后动作改变"],
+    "scenario": "正常（对照组：语料移除 D02）",
+    "question": "报销期限多久？",
+    "corpus": "corpus_no_d02.json",
+    "expect": {"status": "answered", "cite_docs": ["D01"]}
+  },
+  {
+    "id": "C4_out_of_scope",
+    "acceptance": ["资料外问题"],
+    "scenario": "资料不足",
+    "question": "公司股票代码是多少？",
+    "corpus": "corpus_full.json",
+    "expect": {"status": "out_of_scope", "cite_docs": []}
+  },
+  {
+    "id": "C5_paraphrase",
+    "acceptance": ["改写后的相似问题"],
+    "scenario": "正常（口语化表述，首检索弱命中）",
+    "question": "出差住酒店一晚最多报多少？",
+    "corpus": "corpus_full.json",
+    "expect": {"status": "answered", "cite_docs": ["D03"]}
+  },
+  {
+    "id": "C6_followup",
+    "acceptance": ["上下文追问"],
+    "scenario": "正常（多轮）",
+    "history_questions": ["出差的住宿标准是多少？"],
+    "question": "那一线城市呢？",
+    "corpus": "corpus_full.json",
+    "expect": {"status": "answered", "cite_docs": ["D03"]}
+  },
+  {
+    "id": "C7_tool_fail_recover",
+    "acceptance": ["工具失败"],
+    "scenario": "工具失败（首次检索故障，随后恢复）",
+    "question": "会员能导出4K吗？",
+    "corpus": "corpus_full.json",
+    "fail_search": 1,
+    "expect": {"status": "answered", "cite_docs": ["D05"]}
+  },
+  {
+    "id": "C8_tool_fail_persistent",
+    "acceptance": ["工具失败"],
+    "scenario": "工具失败（检索持续不可用，读取工具可用）",
+    "question": "会员能导出4K吗？",
+    "corpus": "corpus_full.json",
+    "fail_search": -1,
+    "expect": {
+      "accept": [
+        {"status": "tool_failed", "cite_docs": []},
+        {"status": "answered", "cite_docs": ["D05"], "require_gaps": true}
+      ],
+      "note": "两种结果都合格：放弃并说明失败；或换用 read_doc 直接取证，答案有据且在 gaps 中声明检索未完成。"
+    }
+  },
+  {
+    "id": "C10_all_tools_fail",
+    "acceptance": ["工具失败"],
+    "scenario": "工具失败（检索与读取均不可用）",
+    "question": "会员能导出4K吗？",
+    "corpus": "corpus_full.json",
+    "fail_tools": ["search_docs", "read_doc"],
+    "expect": {"status": "tool_failed", "cite_docs": []}
+  },
+  {
+    "id": "C9_step_limit",
+    "acceptance": ["步数上限"],
+    "scenario": "执行上限（max_steps=2）",
+    "question": "报销期限多久？",
+    "corpus": "corpus_full.json",
+    "max_steps": 2,
+    "expect": {"status": "incomplete_step_limit", "cite_docs": []}
+  }
+]

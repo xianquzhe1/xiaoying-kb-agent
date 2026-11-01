@@ -1,0 +1,92 @@
+{
+  "case": {
+    "id": "C8_tool_fail_persistent",
+    "acceptance": [
+      "工具失败"
+    ],
+    "scenario": "工具失败（检索持续不可用，读取工具可用）",
+    "question": "会员能导出4K吗？",
+    "corpus": "corpus_full.json",
+    "fail_search": -1,
+    "expect": {
+      "accept": [
+        {
+          "status": "tool_failed",
+          "cite_docs": []
+        },
+        {
+          "status": "answered",
+          "cite_docs": [
+            "D05"
+          ],
+          "require_gaps": true
+        }
+      ],
+      "note": "两种结果都合格：放弃并说明失败；或换用 read_doc 直接取证，答案有据且在 gaps 中声明检索未完成。"
+    }
+  },
+  "provider": "mock",
+  "run_at": "2026-11-01T08:19:52+00:00",
+  "history": [],
+  "result": {
+    "status": "tool_failed",
+    "answer": "检索工具连续失败，暂无法取证，请稍后重试。",
+    "citations": [],
+    "gaps": [
+      "search_docs 连续失败"
+    ],
+    "steps_used": 3,
+    "tool_calls_used": 2,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "会员能导出4K吗？"
+        },
+        "rationale": "首轮检索",
+        "observation": "ERROR: 检索服务暂时不可用（模拟故障：索引节点超时）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "search_docs",
+        "params": {
+          "query": "会员能导出4K吗？"
+        },
+        "rationale": "上次检索报错，原参数重试一次",
+        "observation": "ERROR: 检索服务暂时不可用（模拟故障：索引节点超时）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "finish",
+        "params": {
+          "status": "tool_failed",
+          "answer": "检索工具连续失败，暂无法取证，请稍后重试。",
+          "citations": [],
+          "gaps": [
+            "search_docs 连续失败"
+          ]
+        },
+        "rationale": "Mock 规则收口",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "mock:heuristic",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [],
+    "matched_option": 0
+  }
+}

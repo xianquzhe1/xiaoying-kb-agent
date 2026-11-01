@@ -1,0 +1,23 @@
+[project]
+name = "kb-agent"
+version = "0.1.0"
+description = "企业知识问答 Agent（小影校招笔试 题3）"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=2.3,<3",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

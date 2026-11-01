@@ -1,0 +1,68 @@
+{
+  "case": {
+    "id": "C4_out_of_scope",
+    "acceptance": [
+      "资料外问题"
+    ],
+    "scenario": "资料不足",
+    "question": "公司股票代码是多少？",
+    "corpus": "corpus_full.json",
+    "expect": {
+      "status": "out_of_scope",
+      "cite_docs": []
+    }
+  },
+  "provider": "mock",
+  "run_at": "2026-11-01T08:19:52+00:00",
+  "history": [],
+  "result": {
+    "status": "out_of_scope",
+    "answer": "现有制度与 FAQ 中没有找到相关资料。",
+    "citations": [],
+    "gaps": [
+      "语料未覆盖：公司股票代码是多少？"
+    ],
+    "steps_used": 2,
+    "tool_calls_used": 1,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "公司股票代码是多少？"
+        },
+        "rationale": "首轮检索",
+        "observation": "2 命中：D01/S1 适用范围(2024-01-10, score=1.0)；D01/S4 发票要求(2024-01-10, score=1.0)",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "finish",
+        "params": {
+          "status": "out_of_scope",
+          "answer": "现有制度与 FAQ 中没有找到相关资料。",
+          "citations": [],
+          "gaps": [
+            "语料未覆盖：公司股票代码是多少？"
+          ]
+        },
+        "rationale": "Mock 规则收口",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "mock:heuristic",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [],
+    "matched_option": 0
+  }
+}

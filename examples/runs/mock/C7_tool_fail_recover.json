@@ -1,0 +1,104 @@
+{
+  "case": {
+    "id": "C7_tool_fail_recover",
+    "acceptance": [
+      "工具失败"
+    ],
+    "scenario": "工具失败（首次检索故障，随后恢复）",
+    "question": "会员能导出4K吗？",
+    "corpus": "corpus_full.json",
+    "fail_search": 1,
+    "expect": {
+      "status": "answered",
+      "cite_docs": [
+        "D05"
+      ]
+    }
+  },
+  "provider": "mock",
+  "run_at": "2026-11-01T08:19:52+00:00",
+  "history": [],
+  "result": {
+    "status": "answered",
+    "answer": "依据 D05：免费用户最高支持1080P导出，会员用户支持4K导出且不带水印。",
+    "citations": [
+      {
+        "doc_id": "D05",
+        "section_id": "S1",
+        "quote": "免费用户最高支持1080P导出，会员用户支持4K导出且不带水印"
+      }
+    ],
+    "gaps": [],
+    "steps_used": 4,
+    "tool_calls_used": 3,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "会员能导出4K吗？"
+        },
+        "rationale": "首轮检索",
+        "observation": "ERROR: 检索服务暂时不可用（模拟故障：索引节点超时）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "search_docs",
+        "params": {
+          "query": "会员能导出4K吗？"
+        },
+        "rationale": "上次检索报错，原参数重试一次",
+        "observation": "2 命中：D05/S1 导出分辨率与会员权益(2025-06-20, score=4.0)；D05/S2 工程文件云同步(2025-06-20, score=1.0)",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "read_doc",
+        "params": {
+          "doc_id": "D05",
+          "section_id": "S1"
+        },
+        "rationale": "读取候选原文",
+        "observation": "D05/S1《剪辑客户端常见问题FAQ》导出分辨率与会员权益：免费用户最高支持1080P导出，会员用户支持4K导出且不带水印。导出失败多数由本地存储空间不足导致，建议预留两倍于素材体积的磁盘空间。",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 4,
+        "action": "finish",
+        "params": {
+          "status": "answered",
+          "answer": "依据 D05：免费用户最高支持1080P导出，会员用户支持4K导出且不带水印。",
+          "citations": [
+            {
+              "doc_id": "D05",
+              "section_id": "S1",
+              "quote": "免费用户最高支持1080P导出，会员用户支持4K导出且不带水印"
+            }
+          ],
+          "gaps": []
+        },
+        "rationale": "Mock 规则收口",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "mock:heuristic",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [
+      "D05"
+    ],
+    "matched_option": 0
+  }
+}

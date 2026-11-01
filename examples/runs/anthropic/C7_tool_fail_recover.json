@@ -1,0 +1,115 @@
+{
+  "case": {
+    "id": "C7_tool_fail_recover",
+    "acceptance": [
+      "工具失败"
+    ],
+    "scenario": "工具失败（首次检索故障，随后恢复）",
+    "question": "会员能导出4K吗？",
+    "corpus": "corpus_full.json",
+    "fail_search": 1,
+    "expect": {
+      "status": "answered",
+      "cite_docs": [
+        "D05"
+      ]
+    }
+  },
+  "provider": "anthropic",
+  "run_at": "2026-11-01T08:21:40+00:00",
+  "history": [],
+  "result": {
+    "status": "answered",
+    "answer": "可以。会员能导出4K视频，导出的视频不带水印。免费用户最高只能导出1080P。如果导出失败，多半是本地存储空间不够，建议预留至少素材体积两倍的磁盘空间。依据是《剪辑客户端常见问题FAQ》（2025-06-20版）。",
+    "citations": [
+      {
+        "doc_id": "D05",
+        "quote": "免费用户最高支持1080P导出，会员用户支持4K导出且不带水印。",
+        "section_id": "S1"
+      },
+      {
+        "doc_id": "D05",
+        "quote": "导出失败多数由本地存储空间不足导致，建议预留两倍于素材体积的磁盘空间。",
+        "section_id": "S1"
+      }
+    ],
+    "gaps": [],
+    "steps_used": 4,
+    "tool_calls_used": 3,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "会员 导出 4K",
+          "top_k": 5
+        },
+        "rationale": "用户问会员能否导出4K，先用原词检索产品FAQ。",
+        "observation": "ERROR: 检索服务暂时不可用（模拟故障：索引节点超时）。本次 search_docs 调用未返回任何结果，可稍后重试、调整参数，或改用其他工具取证。",
+        "is_error": true,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "search_docs",
+        "params": {
+          "query": "导出分辨率 4K 会员权益",
+          "top_k": 3
+        },
+        "rationale": "上一步索引节点超时，重试一次并减少返回条数。",
+        "observation": "2 命中：D05/S1 导出分辨率与会员权益(2025-06-20, score=24.0)；D05/S2 工程文件云同步(2025-06-20, score=1.0)",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "read_doc",
+        "params": {
+          "doc_id": "D05",
+          "section_id": "S1"
+        },
+        "rationale": "D05 S1 摘要直接涉及会员4K导出，读原文以便逐字引用。",
+        "observation": "D05/S1《剪辑客户端常见问题FAQ》导出分辨率与会员权益：免费用户最高支持1080P导出，会员用户支持4K导出且不带水印。导出失败多数由本地存储空间不足导致，建议预留两倍于素材体积的磁盘空间。",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 4,
+        "action": "finish",
+        "params": {
+          "answer": "可以。会员能导出4K视频，导出的视频不带水印。免费用户最高只能导出1080P。如果导出失败，多半是本地存储空间不够，建议预留至少素材体积两倍的磁盘空间。依据是《剪辑客户端常见问题FAQ》（2025-06-20版）。",
+          "citations": [
+            {
+              "doc_id": "D05",
+              "quote": "免费用户最高支持1080P导出，会员用户支持4K导出且不带水印。",
+              "section_id": "S1"
+            },
+            {
+              "doc_id": "D05",
+              "quote": "导出失败多数由本地存储空间不足导致，建议预留两倍于素材体积的磁盘空间。",
+              "section_id": "S1"
+            }
+          ],
+          "status": "answered"
+        },
+        "rationale": "D05 S1 原文明确写了会员支持4K导出，检索没有发现其他资料与之冲突。",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "claude-opus-5-5",
+    "usage": {
+      "input_tokens": 1304,
+      "output_tokens": 443
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [
+      "D05"
+    ],
+    "matched_option": 0
+  }
+}

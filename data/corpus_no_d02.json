@@ -1,0 +1,10 @@
+{
+  "corpus_id": "no_d02",
+  "description": "语料变体：移除 D02 补充通知。用于对照实验——同一问题在无冲突资料下，模型应直接依据 D01 给出答案，而不再要求确认适用制度。",
+  "docs": [
+    "docs/D01_expense_policy.json",
+    "docs/D03_travel_standard.json",
+    "docs/D04_attendance.json",
+    "docs/D05_product_faq.json"
+  ]
+}

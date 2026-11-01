@@ -1,0 +1,92 @@
+{
+  "case": {
+    "id": "C1_clear_answer",
+    "acceptance": [
+      "明确答案"
+    ],
+    "scenario": "正常",
+    "question": "员工年休假有几天？",
+    "corpus": "corpus_full.json",
+    "expect": {
+      "status": "answered",
+      "cite_docs": [
+        "D04"
+      ]
+    }
+  },
+  "provider": "mock",
+  "run_at": "2026-11-01T08:19:52+00:00",
+  "history": [],
+  "result": {
+    "status": "answered",
+    "answer": "依据 D04：员工入职满1年未满10年的，每年享有带薪年休假5天；满10年未满20年的，每年10天；满20年的，每年15天。",
+    "citations": [
+      {
+        "doc_id": "D04",
+        "section_id": "S1",
+        "quote": "员工入职满1年未满10年的，每年享有带薪年休假5天；满10年未满20年的，每年10天；满20年的，每年15天"
+      }
+    ],
+    "gaps": [],
+    "steps_used": 3,
+    "tool_calls_used": 2,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "员工年休假有几天？"
+        },
+        "rationale": "首轮检索",
+        "observation": "3 命中：D04/S1 年休假天数(2024-09-15, score=7.0)；D01/S1 适用范围(2024-01-10, score=1.0)；D01/S2 报销期限(2024-01-10, score=1.0)",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "read_doc",
+        "params": {
+          "doc_id": "D04",
+          "section_id": "S1"
+        },
+        "rationale": "读取候选原文",
+        "observation": "D04/S1《考勤与假期管理制度》年休假天数：员工入职满1年未满10年的，每年享有带薪年休假5天；满10年未满20年的，每年10天；满20年的，每年15天。年休假当年有效，最多可结转3天至次年3月31日。",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "finish",
+        "params": {
+          "status": "answered",
+          "answer": "依据 D04：员工入职满1年未满10年的，每年享有带薪年休假5天；满10年未满20年的，每年10天；满20年的，每年15天。",
+          "citations": [
+            {
+              "doc_id": "D04",
+              "section_id": "S1",
+              "quote": "员工入职满1年未满10年的，每年享有带薪年休假5天；满10年未满20年的，每年10天；满20年的，每年15天"
+            }
+          ],
+          "gaps": []
+        },
+        "rationale": "Mock 规则收口",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "mock:heuristic",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [
+      "D04"
+    ],
+    "matched_option": 0
+  }
+}

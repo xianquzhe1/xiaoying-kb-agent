@@ -1,0 +1,93 @@
+{
+  "case": {
+    "id": "C3_conflict_removed",
+    "acceptance": [
+      "文档冲突（对照）",
+      "替换文档后动作改变"
+    ],
+    "scenario": "正常（对照组：语料移除 D02）",
+    "question": "报销期限多久？",
+    "corpus": "corpus_no_d02.json",
+    "expect": {
+      "status": "answered",
+      "cite_docs": [
+        "D01"
+      ]
+    }
+  },
+  "provider": "mock",
+  "run_at": "2026-11-01T08:19:52+00:00",
+  "history": [],
+  "result": {
+    "status": "answered",
+    "answer": "依据 D01：员工应当在费用发生之日起30个自然日内提交报销申请并上传发票影像。",
+    "citations": [
+      {
+        "doc_id": "D01",
+        "section_id": "S2",
+        "quote": "员工应当在费用发生之日起30个自然日内提交报销申请并上传发票影像"
+      }
+    ],
+    "gaps": [],
+    "steps_used": 3,
+    "tool_calls_used": 2,
+    "trace": [
+      {
+        "step": 1,
+        "action": "search_docs",
+        "params": {
+          "query": "报销期限多久？"
+        },
+        "rationale": "首轮检索",
+        "observation": "3 命中：D01/S2 报销期限(2024-01-10, score=10.0)；D01/S1 适用范围(2024-01-10, score=1.0)；D01/S3 审批流程(2024-01-10, score=1.0)",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 2,
+        "action": "read_doc",
+        "params": {
+          "doc_id": "D01",
+          "section_id": "S2"
+        },
+        "rationale": "读取候选原文",
+        "observation": "D01/S2《费用报销管理制度》报销期限：员工应当在费用发生之日起30个自然日内提交报销申请并上传发票影像。超过30个自然日提交的，需由部门负责人在系统中填写书面说明，经财务部复核后方可受理。跨年度的费用不得延至次年提交。",
+        "is_error": false,
+        "elapsed_ms": 0
+      },
+      {
+        "step": 3,
+        "action": "finish",
+        "params": {
+          "status": "answered",
+          "answer": "依据 D01：员工应当在费用发生之日起30个自然日内提交报销申请并上传发票影像。",
+          "citations": [
+            {
+              "doc_id": "D01",
+              "section_id": "S2",
+              "quote": "员工应当在费用发生之日起30个自然日内提交报销申请并上传发票影像"
+            }
+          ],
+          "gaps": []
+        },
+        "rationale": "Mock 规则收口",
+        "observation": "已接受",
+        "is_error": false,
+        "elapsed_ms": 0
+      }
+    ],
+    "model": "mock:heuristic",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "check": {
+    "pass": true,
+    "reasons": [],
+    "cited_docs": [
+      "D01"
+    ],
+    "matched_option": 0
+  }
+}
